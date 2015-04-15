@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.canvas.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="533.0" prefWidth="732.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="application.FormHandler">
+<AnchorPane onKeyPressed="#keyTypedEvent" prefHeight="533.0" prefWidth="732.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FormHandler">
    <children>
-      <Canvas fx:id="canvas" height="503.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#updScreenCaptures" width="637.0" />
+      <Canvas fx:id="canvas" height="503.0" layoutX="81.0" layoutY="16.0" onKeyPressed="#keyTypedEvent" onKeyTyped="#keyTypedEvent" onMouseClicked="#mouseClickedEvent" width="637.0" />
+      <Label fx:id="label" layoutX="14.0" layoutY="24.0" text="Label" />
    </children>
 </AnchorPane>

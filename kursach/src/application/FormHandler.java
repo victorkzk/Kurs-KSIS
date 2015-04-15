@@ -1,16 +1,14 @@
 package application;
 
-import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import control.ImagesSender;
 
@@ -18,20 +16,19 @@ public class FormHandler implements Initializable{
 	
 	@FXML
 	private Canvas canvas;
+	@FXML
+	private Label label;
 	
 	public void initialize (URL url, ResourceBundle sourceBundle) {
-		canvas.addEventFilter(MouseEvent.M, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent mouseEvent) {
-				mouseEvent.
-			}
-		});
+		
 	}
 	
 	@FXML
-	private void updScreenCaptures() {
-		ImagesSender sender = new ImagesSender();
-		Thread myThready = new Thread(new Runnable()
+	private void mouseClickedEvent(MouseEvent mouseEvent) {
+		MouseButton mb = mouseEvent.getButton();
+		ImagesSender imageSender = new ImagesSender("127.0.0.1", 54321);
+		imageSender.startSending();
+/*		Thread myThready = new Thread(new Runnable()
         {
             public void run()
             {
@@ -48,6 +45,11 @@ public class FormHandler implements Initializable{
 	            }
             }
 	    });
-		myThready.start();
+		myThready.start();*/
+	}
+	
+	@FXML 
+	private void keyTypedEvent() {
+		label.setText("1");
 	}
 }

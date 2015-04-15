@@ -5,16 +5,14 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class CommandSender {
+public class CommandsSender {
 	static byte LEFT_CLICK = 0;
 	static byte RIGHT_CLICK = 1;
 	static byte CURSOR_MOVE = 2;
-	//private InetAddress addr;
-	//private int port;
 	private Socket socket;
 	private DataOutputStream outStream;
 	
-	public CommandSender(String ip, int port) {
+	public CommandsSender(String ip, int port) {
 		try {
 			socket = new Socket(ip, port);
 			outStream = new DataOutputStream(socket.getOutputStream());
@@ -25,13 +23,11 @@ public class CommandSender {
 		}
 	}
 	
-	public void sendClick(int ) {
+	public void sendClick() {
 		
 	}
 	
 	public void sendCursorPosition() {
 		
 	}
-	
-	
 }
