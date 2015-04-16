@@ -16,34 +16,37 @@ import javax.imageio.ImageIO;
 
 public class ImagesReceiver {
 	
-	GraphicsContext gc;
+	private GraphicsContext gc;
+	private DatagramSocket datagramSocket;
 	
-	public ImagesReceiver(GraphicsContext gc) {
+	public ImagesReceiver(GraphicsContext gc, int port) {
 		this.gc = gc;
+		try {
+			datagramSocket = new DatagramSocket(port);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void startReceive() {
-		Thread receiveThready = new Thread(new Runnable()
+		Thread receiveThread = new Thread(new Runnable()
         {
             public void run()
             {
                 receiveDatagram();
             }
         });
-        receiveThready.start();
+        receiveThread.start();
 	}
 	
 	private void receiveDatagram() {
 		try {
-			byte[] imageInByte = new byte[100000];
+			byte[] imageInByte = new byte[60000];
 			DatagramPacket datagramPacket = new DatagramPacket(imageInByte, imageInByte.length);
-			DatagramSocket datagramSocket = new DatagramSocket();
 			while (true) {
 				datagramSocket.receive(datagramPacket);
 				showImage(datagramPacket.getData());
 			}
-		} catch (SocketException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +57,7 @@ public class ImagesReceiver {
 			InputStream in = new ByteArrayInputStream(imageInByte);
 			BufferedImage bufferedImage = ImageIO.read(in);
         	Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-        	gc.drawImage(image, 0, 0);
+        	gc.drawImage(image, 0, 0, ImagesSender.IMG_WIDTH, ImagesSender.IMG_HEIGHT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
