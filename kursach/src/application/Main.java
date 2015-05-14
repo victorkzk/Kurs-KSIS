@@ -16,7 +16,7 @@ public class Main extends Application {
 		this.primaryStage = primaryStage;
 		initForm();
 	}
-	
+
 	public void initForm() {
 		try {
 			FXMLLoader loader = new FXMLLoader();

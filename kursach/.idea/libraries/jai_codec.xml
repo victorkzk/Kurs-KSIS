@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="jai_codec">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/jai-1_1_3-lib/jai-1_1_3/lib/jai_codec.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/jai-1_1_3-lib/jai-1_1_3/lib/jai_core.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/junit-4.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

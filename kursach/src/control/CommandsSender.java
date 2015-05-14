@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 
 public class CommandsSender {
@@ -15,11 +16,13 @@ public class CommandsSender {
 	
 	private Socket socket;
 	private DataOutputStream outStream;
-	
-	public CommandsSender(String ip, int port) {
+	private Canvas canvas;
+
+	public CommandsSender(String ip, int port, Canvas canvas) {
 		try {
 			socket = new Socket(ip, port);
 			outStream = new DataOutputStream(socket.getOutputStream());
+			this.canvas = canvas;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -39,8 +42,9 @@ public class CommandsSender {
 	
 	public void sendCursorMove(MouseEvent mouseEvent) {
 		try {
-			final double PROPERTY = 768.0/400;
-			outStream.writeByte(MOVE);
+			final double PROPERTY = 1366.0/canvas.getWidth();
+            System.out.println(canvas.getWidth() + " " + canvas.getHeight());
+            outStream.writeByte(MOVE);
 			int displayX = (int)(mouseEvent.getSceneX() * PROPERTY);
 			int displayY = (int)(mouseEvent.getSceneY() * PROPERTY);
 			outStream.writeInt(displayX);

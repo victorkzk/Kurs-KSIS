@@ -10,11 +10,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import control.CommandsReceiver;
 import control.CommandsSender;
 import control.ImagesReceiver;
 import control.ImagesSender;
+import javafx.scene.layout.AnchorPane;
 
 public class FormHandler implements Initializable{
 	
@@ -22,7 +24,11 @@ public class FormHandler implements Initializable{
 	private Canvas canvas;
 	@FXML
 	private CheckBox isController;
-	
+	@FXML
+    private AnchorPane anchorPane;
+    @FXML
+    private TextField ipField;
+
 	final String IP = "127.0.0.1";
 	final int IMAGES_PORT = 11111;
 	final int COMMANDS_PORT = 11112;
@@ -39,11 +45,11 @@ public class FormHandler implements Initializable{
 	@FXML
 	private void connectEvent() {
 		if (isController.isSelected()) {
-			imagesReceiver = new ImagesReceiver(canvas.getGraphicsContext2D(), IMAGES_PORT);
-			commandsSender = new CommandsSender(IP, COMMANDS_PORT);
+			imagesReceiver = new ImagesReceiver(canvas, IMAGES_PORT);
+			commandsSender = new CommandsSender(ipField.getText(), COMMANDS_PORT, canvas);
 		}
 		else {
-			imagesSender = new ImagesSender(IP, IMAGES_PORT);
+			imagesSender = new ImagesSender(ipField.getText(), IMAGES_PORT);
 			commandsReceiver = new CommandsReceiver(COMMANDS_PORT);
 		}
 	}
@@ -87,4 +93,13 @@ public class FormHandler implements Initializable{
 	private void keyTypedEvent() {
 		
 	}
+
+	@FXML
+	private void swipeRight() {
+		canvas.setWidth(anchorPane.getWidth());
+	}
+
+    public int sum(int a, int b) {
+        return a + b;
+    }
 }

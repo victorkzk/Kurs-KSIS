@@ -6,12 +6,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane onKeyPressed="#keyTypedEvent" prefHeight="455.0" prefWidth="712.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FormHandler">
+<AnchorPane fx:id="anchorPane" onKeyPressed="#keyTypedEvent" onSwipeRight="#swipeRight" prefHeight="527.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FormHandler">
    <children>
-      <Canvas fx:id="canvas" disable="true" height="400.0" onKeyPressed="#keyTypedEvent" onKeyTyped="#keyTypedEvent" onMouseClicked="#mouseClickedEvent" onMouseMoved="#mouseMoveEvent" width="712.0" />
-      <CheckBox fx:id="isController" layoutX="35.0" layoutY="423.0" mnemonicParsing="false" text="Controller" />
-      <Button layoutX="123.0" layoutY="419.0" mnemonicParsing="false" onAction="#connectEvent" prefHeight="25.0" prefWidth="73.0" text="Connect" />
-      <Button layoutX="305.0" layoutY="419.0" mnemonicParsing="false" onAction="#testEvent" text="Test" />
-      <Button layoutX="208.0" layoutY="419.0" mnemonicParsing="false" onAction="#startControl" prefHeight="25.0" prefWidth="81.0" text="Start" />
+      <Canvas fx:id="canvas" disable="true" height="495.0" onKeyPressed="#keyTypedEvent" onKeyTyped="#keyTypedEvent" onMouseClicked="#mouseClickedEvent" onMouseMoved="#mouseMoveEvent" width="861.0" />
+      <CheckBox fx:id="isController" layoutX="29.0" layoutY="496.0" mnemonicParsing="false" text="Controller" />
+      <Button layoutX="120.0" layoutY="492.0" mnemonicParsing="false" onAction="#connectEvent" prefHeight="25.0" prefWidth="73.0" text="Connect" />
+      <Button layoutX="296.0" layoutY="492.0" mnemonicParsing="false" onAction="#testEvent" text="Test" />
+      <Button layoutX="204.0" layoutY="492.0" mnemonicParsing="false" onAction="#startControl" prefHeight="25.0" prefWidth="81.0" text="Start" />
+      <TextField fx:id="ipField" layoutX="348.0" layoutY="492.0" />
    </children>
 </AnchorPane>

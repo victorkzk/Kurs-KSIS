@@ -1,27 +1,19 @@
 package control;
 
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.imageio.ImageIO;
+import java.net.*;
+import java.util.Iterator;
 
 public class ImagesSender {
-	public static final int IMG_WIDTH = 712; 
-	public static final int IMG_HEIGHT = 400;
-	
+
 	private InetAddress ipAddress;
 	private int port;
 	private DatagramSocket datagramSocket;
@@ -40,7 +32,7 @@ public class ImagesSender {
 	}
 	
 	public void startSending() {
-		final long SENDING_FREQUENCY = 50;
+		final long SENDING_FREQUENCY = 20;
 		
 		Thread sendThread = new Thread(new Runnable()
         {
@@ -73,13 +65,9 @@ public class ImagesSender {
 	
 	public void sendScreenCapture() {
 		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(getScreenCapture(), "jpg", baos);
-			baos.flush();
-			byte[] imageInByte = baos.toByteArray();
+			byte[] imageInByte = getScreenCaptureInByteArray();
 			byte[] extImageArray = new byte[60000];
 			System.arraycopy(imageInByte, 0, extImageArray, 0, imageInByte.length);
-			baos.close();
 			DatagramPacket datagramPacket = new DatagramPacket(extImageArray, extImageArray.length, ipAddress, port);
 			datagramSocket.send(datagramPacket);
 		} catch (IOException e) {
@@ -87,15 +75,22 @@ public class ImagesSender {
 		}
 	}
 	
-	private BufferedImage getScreenCapture() {
+	private byte[] getScreenCaptureInByteArray() {
+		final float quality = 0.1f;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		try {
 			BufferedImage image = new Robot().createScreenCapture(new Rectangle(screenSize));
-			BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
-			Graphics2D g = resizedImage.createGraphics();
-			g.drawImage(image, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
-			g.dispose();
-			return resizedImage;
+			Iterator<ImageWriter> writers = ImageIO.getImageWritersBySuffix("jpeg");
+			ImageWriter writer = (ImageWriter) writers.next();
+			ImageWriteParam param = writer.getDefaultWriteParam();
+			param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+			param.setCompressionQuality(quality);
+			ByteArrayOutputStream bos = new ByteArrayOutputStream(32768);
+			ImageOutputStream ios = ImageIO.createImageOutputStream(bos);
+			writer.setOutput(ios);
+			writer.write(null, new IIOImage(image, null, null), param);
+			ios.flush();
+			return bos.toByteArray();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

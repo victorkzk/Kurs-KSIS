@@ -9,6 +9,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -16,11 +17,11 @@ import javax.imageio.ImageIO;
 
 public class ImagesReceiver {
 	
-	private GraphicsContext gc;
+	private Canvas canvas;
 	private DatagramSocket datagramSocket;
 	
-	public ImagesReceiver(GraphicsContext gc, int port) {
-		this.gc = gc;
+	public ImagesReceiver(Canvas canvas, int port) {
+		this.canvas = canvas;
 		try {
 			datagramSocket = new DatagramSocket(port);
 		} catch (SocketException e) {
@@ -57,7 +58,7 @@ public class ImagesReceiver {
 			InputStream in = new ByteArrayInputStream(imageInByte);
 			BufferedImage bufferedImage = ImageIO.read(in);
         	Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-        	gc.drawImage(image, 0, 0, ImagesSender.IMG_WIDTH, ImagesSender.IMG_HEIGHT);
+        	canvas.getGraphicsContext2D().drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
